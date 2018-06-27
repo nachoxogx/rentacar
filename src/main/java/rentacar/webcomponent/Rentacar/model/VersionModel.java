@@ -6,13 +6,23 @@
 package rentacar.webcomponent.Rentacar.model;
 
 import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author nacho
  */
+@Entity
+@Table(name = "version")
 public class VersionModel {
-
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVersion;
     private String nombre;
     private String detalle;
@@ -26,13 +36,21 @@ public class VersionModel {
     private boolean cierreCentralizado;
     private boolean alzaVidriosElectricos;
     private boolean camaraRetroceso;
+    @ManyToOne
+    @JoinColumn(name = "id_combustible")
     private CombustibleModel combustible;
+        @ManyToOne
+    @JoinColumn(name = "id_carroceria")
     private CarroceriaModel carroceria;
+            @ManyToOne
+    @JoinColumn(name = "id_transmision")
     private TransmisionModel transmision;
+                @ManyToOne
+    @JoinColumn(name = "id_traccion")
     private TraccionModel traccion;
+                    @ManyToOne
+    @JoinColumn(name = "id_modelo")
     private ModeloModel modelo;
-
-    public static ArrayList<VersionModel> version = new ArrayList<>();
 
     public int getIdVersion() {
         return idVersion;
@@ -178,14 +196,6 @@ public class VersionModel {
         this.modelo = modelo;
     }
 
-    public static ArrayList<VersionModel> getVersion() {
-        return version;
-    }
-
-    public static void setVersion(ArrayList<VersionModel> version) {
-        VersionModel.version = version;
-    }
-
     public VersionModel() {
     }
 
@@ -229,107 +239,6 @@ public class VersionModel {
         this.traccion = traccion;
         this.modelo = modelo;
     }
-    
-    
-    
-
-    public boolean nuevaVersion(VersionModel nuevaVersion) {
-
-        int id = 0;
-        if (!version.isEmpty()) {
-
-            for (VersionModel versiones : version) {
-
-                if (versiones.getIdVersion() > id) {
-                    id = versiones.getIdVersion();
-                }
-
-            }
-
-        }
-        id++;
-        nuevaVersion.getModelo();
-        version.add(new VersionModel(id , nuevaVersion.getNombre(), nuevaVersion.getDetalle(),
-                nuevaVersion.getPuertas(), nuevaVersion.getPasajeros(), nuevaVersion.getCilindrada(), nuevaVersion.getRendimiento(),
-                nuevaVersion.getCapacidadMaletero(), nuevaVersion.getAirbags(), nuevaVersion.isAireAcondicionado(),
-                nuevaVersion.isCierreCentralizado(), nuevaVersion.isAlzaVidriosElectricos(), nuevaVersion.isCamaraRetroceso(),
-                nuevaVersion.getCombustible(), nuevaVersion.getCarroceria(), nuevaVersion.getTransmision(),
-                nuevaVersion.getTraccion(), nuevaVersion.getModelo()));
-        return true;
-
-    }
-
-    /*
-    esto es para buscar datos en su json para el codigo dejelo asi
-    public nombredesuclasemodel buscar"nombredelatablaenlaimagen"(int idBuscar)
-     */
-    public VersionModel buscarVersion(int idBuscar) {
-
-        VersionModel versionEncontrada = null;
-
-        if (!version.isEmpty()) {
-            for (VersionModel versiones : version) {
-                if (versiones.getIdVersion() == idBuscar) {
-                    versionEncontrada = versiones;
-                }
-            }
-        }
-        return versionEncontrada;
-    }
-
-    /*
-    esto es para buscar datos en su json para el codigo dejelo asi
-    public nombredesuclasemodel editar"nombredelatablaenlaimagen"(int idEditar, nombredesuclasemodel nombredelatablaenlaimagen"Editar")
-     */
-    public VersionModel editarVersion(int idEditar, VersionModel versionEditar) {
-
-        VersionModel versionEditada = null;
-
-        if (!version.isEmpty()) {
-            for (VersionModel versiones : version) {
-                if (versiones.getIdVersion() == idEditar) {
-                    versiones.setNombre(versionEditar.getNombre());
-                    versiones.setDetalle(versionEditar.getDetalle());
-                    versiones.setPuertas(versionEditar.getPuertas());
-                    versiones.setPasajeros(versionEditar.getPasajeros());
-                    versiones.setCilindrada(versionEditar.getCilindrada());
-                    versiones.setRendimiento(versionEditar.getRendimiento());
-                    versiones.setCapacidadMaletero(versionEditar.getCapacidadMaletero());
-                    versiones.setAirbags(versionEditar.getAirbags());
-                    versiones.setAireAcondicionado(versionEditar.isAireAcondicionado());
-                    versiones.setCierreCentralizado(versionEditar.isCierreCentralizado());
-                    versiones.setAlzaVidriosElectricos(versionEditar.isAlzaVidriosElectricos());
-                    versiones.setCamaraRetroceso(versionEditar.isCamaraRetroceso());
-                    versiones.setCombustible(versionEditar.getCombustible());
-                    versiones.setCarroceria(versionEditar.getCarroceria());
-                    versiones.setTraccion(versionEditar.getTraccion());
-                    versiones.setModelo(versionEditar.getModelo());
-
-                    versionEditada = versiones;
-                }
-            }
-        }
-        return versionEditada;
-    }
-
-    /*
-    esto es para eliminar datos en su json para el codigo dejelo asi
-    public boolean eliminar"nombredelatablaenlaimagen"(int idEliminar)
-     */
-    public boolean eliminarVersion(int idEliminar) {
-
-        VersionModel versionEliminar = null;
-
-        if (!version.isEmpty()) {
-            for (VersionModel versiones : version) {
-                if (versiones.getIdVersion()== idEliminar) {
-                    versionEliminar = versiones;
-                }
-            }
-        }
-
-        version.remove(versionEliminar);
-        return true;
-    }
-
+                    
+                                  
 }
