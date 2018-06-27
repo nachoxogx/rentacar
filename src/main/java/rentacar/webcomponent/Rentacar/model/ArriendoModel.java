@@ -9,22 +9,32 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author nacho
  */
+@Entity
+@Table(name = "arriendo")
 public class ArriendoModel {
-
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idArriendo;
     private Date fechaArriendo;
     private Time horaArriendo;
     private PersonaModel vendedor;
     private PersonaModel cliente;
     private VehiculoModel vehiculo;
-    private MediopagoModel medioPago;
-
-    public static ArrayList<ArriendoModel> arriendo = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "id_mediopago")
+    private MediopagoModel medioPago; 
 
     public int getIdArriendo() {
         return idArriendo;
@@ -82,14 +92,6 @@ public class ArriendoModel {
         this.medioPago = medioPago;
     }
 
-    public static ArrayList<ArriendoModel> getArriendo() {
-        return arriendo;
-    }
-
-    public static void setArriendo(ArrayList<ArriendoModel> arriendo) {
-        ArriendoModel.arriendo = arriendo;
-    }
-
     public ArriendoModel() {
     }
 
@@ -111,88 +113,7 @@ public class ArriendoModel {
         this.vehiculo = vehiculo;
         this.medioPago = medioPago;
     }
-
-    public boolean nuevoArriendo(ArriendoModel nuevoArriendo) {
-
-        int id = 0;
-        if (!arriendo.isEmpty()) {
-
-            for (ArriendoModel arriendos : arriendo) {
-
-                if (arriendos.getIdArriendo()> id) {
-                    id = arriendos.getIdArriendo();
-                }
-
-            }
-
-        }
-        id++;
-        int idPago = nuevoArriendo.getMedioPago().getIdMediopago();
-        arriendo.add(new ArriendoModel(id, nuevoArriendo.getFechaArriendo(), nuevoArriendo.getHoraArriendo(),
-                nuevoArriendo.getVendedor(), nuevoArriendo.getCliente(), nuevoArriendo.getVehiculo(),
-                nuevoArriendo.getMedioPago().buscarMediopago(idPago)));
-        return true;
-
-    }
-/*
-    esto es para buscar datos en su json para el codigo dejelo asi
-    public nombredesuclasemodel buscar"nombredelatablaenlaimagen"(int idBuscar)
-    */
-    public ArriendoModel buscarArriendo(int idBuscar) {
-
-        ArriendoModel arriendoEncontrado = null;
-
-        if (!arriendo.isEmpty()) {
-            for (ArriendoModel arriendos : arriendo) {
-                if (arriendos.getIdArriendo() == idBuscar) {
-                    arriendoEncontrado = arriendos;
-                }
-            }
-        }
-        return arriendoEncontrado;
-    }
-/*
-    esto es para buscar datos en su json para el codigo dejelo asi
-    public nombredesuclasemodel editar"nombredelatablaenlaimagen"(int idEditar, nombredesuclasemodel nombredelatablaenlaimagen"Editar")
-    */
-    public ArriendoModel editarArriendo(int idEditar, ArriendoModel arriendoEditar) {
-
-        ArriendoModel arriendoEditado = null;
-
-        if (!arriendo.isEmpty()) {
-            for (ArriendoModel arriendos : arriendo) {
-                if (arriendos.getIdArriendo()== idEditar) {
-                    arriendos.setFechaArriendo(arriendoEditar.getFechaArriendo());
-                    arriendos.setHoraArriendo(arriendoEditar.getHoraArriendo());
-                    arriendos.setVendedor(arriendoEditar.getVendedor());
-                    arriendos.setCliente(arriendoEditar.getCliente());
-                    arriendos.setVehiculo(arriendoEditar.getVehiculo());
-                    arriendos.setMedioPago(arriendoEditar.getMedioPago());
-                    arriendoEditado = arriendos;
-                }
-            }
-        }
-        return arriendoEditado;
-    }
-/*
-    esto es para eliminar datos en su json para el codigo dejelo asi
-    public boolean eliminar"nombredelatablaenlaimagen"(int idEliminar)
-    */
-    public boolean eliminarArriendo(int idEliminar) {
-
-        ArriendoModel arriendoEliminar = null;
-
-        if (!arriendo.isEmpty()) {
-            for (ArriendoModel arriendos : arriendo) {
-                if (arriendos.getIdArriendo()== idEliminar) {
-                    arriendoEliminar = arriendos;
-                }
-            }
-        }
-
-        arriendo.remove(arriendoEliminar);
-        return true;
-    }
+    
     
 
 }

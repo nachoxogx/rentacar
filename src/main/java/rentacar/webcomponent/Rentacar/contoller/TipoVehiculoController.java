@@ -8,6 +8,8 @@ package rentacar.webcomponent.Rentacar.contoller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import rentacar.webcomponent.Rentacar.Repository.TipoVehiculoRepository;
 import rentacar.webcomponent.Rentacar.model.TipoVehiculoModel;
 
 /**
@@ -25,53 +28,60 @@ import rentacar.webcomponent.Rentacar.model.TipoVehiculoModel;
 @RestController
 @RequestMapping("/TipoVehiculo")
 public class TipoVehiculoController {
-    
+    @Autowired
+    private TipoVehiculoRepository tvRep;
+            
     @GetMapping()
-    public List<TipoVehiculoModel> list() {
-        return TipoVehiculoModel.tipoVehiculo;
+    public Iterable<TipoVehiculoModel> list() {
+        return tvRep.findAll();
     }
     
     @GetMapping("/{id}")
-    public TipoVehiculoModel get(@PathVariable String id) {
-        TipoVehiculoModel tipoVehiculo = new TipoVehiculoModel();
-        return tipoVehiculo.buscarTipoVehiculo(Integer.parseInt(id));
+    public ResponseEntity<TipoVehiculoModel> get(@PathVariable String id) {
+        Optional<TipoVehiculoModel> tvOptional = tvRep.findById(Integer.parseInt(id));
+        if(tvOptional.isPresent()){
+            TipoVehiculoModel tvEncontrado = tvOptional.get();
+            return new ResponseEntity<>(tvEncontrado, HttpStatus.FOUND);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<?> put(@PathVariable String id, @RequestBody TipoVehiculoModel tipoVehiculoEditar) {
-         //se instancia un objeto del tipo de la clase modelo que esten editando de la siguiente forma
-        // nombredeclasemodel nombredesutablaenlaimagen = new nombredeclasemodel()
-        TipoVehiculoModel tipoVehiculo = new TipoVehiculoModel();
-        //cambiar persona por el nombredesutablaenlaimagen.elnombredesueditar y personaEditar por nombredesutablaenlaimagen"Editar"
-        tipoVehiculo.editarTipoVehiculo(Integer.parseInt(id), tipoVehiculoEditar);
-        //cambiar persona.editarPersona por nombredesutablaenlaimagen.elnombredesueditar, y personaEditar por nombredesutablaenlaimagen"Editar"
-        return new ResponseEntity<>(tipoVehiculo.editarTipoVehiculo(Integer.parseInt(id), tipoVehiculoEditar), HttpStatus.OK);
+         Optional<TipoVehiculoModel> tvOptional = tvRep.findById(Integer.parseInt(id));
+        if(tvOptional.isPresent()){
+            TipoVehiculoModel tvEncontrado = tvOptional.get();
+            tipoVehiculoEditar.setIdTipoVehiculo(tvEncontrado.getIdTipoVehiculo());
+            tvRep.save(tipoVehiculoEditar);
+            return new ResponseEntity<>(tvEncontrado, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
     
     @PostMapping
     public ResponseEntity<?> post(@RequestBody TipoVehiculoModel nuevoTipoVehiculo) {
-                TipoVehiculoModel tipoVehiculo = new TipoVehiculoModel();
-        if ( tipoVehiculo.nuevoTipoVehiculo(nuevoTipoVehiculo)) {
-            //si nombredesutablaenlaimagen.nueva"nombredesutablaenlaimagen" viene con datos
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            //en caso contrario
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        tvRep.save(nuevoTipoVehiculo);
+        Optional<TipoVehiculoModel> tvOptional = tvRep.findById(nuevoTipoVehiculo.getIdTipoVehiculo());
+        if(tvOptional.isPresent()){
+            TipoVehiculoModel tvEncontrado = tvOptional.get();
+            return new ResponseEntity<>(tvEncontrado, HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
-
-        //se instancia un objeto del tipo de la clase modelo que esten eliminando de la siguiente forma
-        // nombredeclasemodel nombredesutablaenlaimagen = new nombredeclasemodel()
-        TipoVehiculoModel tipoVehiculo = new TipoVehiculoModel();
-        if (tipoVehiculo.eliminarTipoVehiculo(Integer.parseInt(id))) {
-            //si nombredesutablaenlaimagen.eliminar"nombredesutablaenlaimagen" tiene id existente
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            //en caso contrario
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+  
+        Optional<TipoVehiculoModel> tvOptional = tvRep.findById(Integer.parseInt(id));
+        if(tvOptional.isPresent()){
+            TipoVehiculoModel tvEncontrado = tvOptional.get();
+            tvRep.deleteById(tvEncontrado.getIdTipoVehiculo());
+            return new ResponseEntity<>(tvEncontrado, HttpStatus.FOUND);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
     

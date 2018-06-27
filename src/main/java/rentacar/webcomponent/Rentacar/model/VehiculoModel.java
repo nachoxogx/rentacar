@@ -5,23 +5,34 @@
  */
 package rentacar.webcomponent.Rentacar.model;
 
-import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author nacho
  */
+@Entity
+@Table(name = "vehiculo")
 public class VehiculoModel {
-
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idVehiculo;
     private String patente;
     private int valor;
     private int año;
     private String color;
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_vehiculo")
     private TipoVehiculoModel tipoVehiculo;
+        @ManyToOne
+    @JoinColumn(name = "id_version")
     private VersionModel version;
-
-    public static ArrayList<VehiculoModel> vehiculo = new ArrayList<>();
 
     public int getIdVehiculo() {
         return idVehiculo;
@@ -79,14 +90,6 @@ public class VehiculoModel {
         this.version = version;
     }
 
-    public static ArrayList<VehiculoModel> getVehiculo() {
-        return vehiculo;
-    }
-
-    public static void setVehiculo(ArrayList<VehiculoModel> vehiculo) {
-        VehiculoModel.vehiculo = vehiculo;
-    }
-
     public VehiculoModel() {
     }
 
@@ -108,89 +111,6 @@ public class VehiculoModel {
         this.tipoVehiculo = tipoVehiculo;
         this.version = version;
     }
-    
-    
-    
-    
-    
-   public boolean nuevoVehiculo(VehiculoModel nuevoVehiculo) {
-
-        int id = 0;
-        if (!vehiculo.isEmpty()) {
-
-            for (VehiculoModel vehiculos : vehiculo) {
-
-                if (vehiculos.getIdVehiculo() > id) {
-                    id = vehiculos.getIdVehiculo();
-                }
-
-            }
-
-        }
-        id++;
-        vehiculo.add(new VehiculoModel(id, nuevoVehiculo.getPatente(), nuevoVehiculo.getValor(), nuevoVehiculo.getAño(), nuevoVehiculo.getColor(), nuevoVehiculo.getTipoVehiculo(), nuevoVehiculo.getVersion()));
-        return true;
-
-    }
-/*
-    esto es para buscar datos en su json para el codigo dejelo asi
-    public nombredesuclasemodel buscar"nombredelatablaenlaimagen"(int idBuscar)
-    */
-    public VehiculoModel buscarVehiculo(int idBuscar) {
-
-        VehiculoModel vehiculoEncontrado = null;
-
-        if (!vehiculo.isEmpty()) {
-            for (VehiculoModel vehiculos : vehiculo) {
-                if (vehiculos.getIdVehiculo() == idBuscar) {
-                    vehiculoEncontrado = vehiculos;
-                }
-            }
-        }
-        return vehiculoEncontrado;
-    }
-/*
-    esto es para buscar datos en su json para el codigo dejelo asi
-    public nombredesuclasemodel editar"nombredelatablaenlaimagen"(int idEditar, nombredesuclasemodel nombredelatablaenlaimagen"Editar")
-    */
-    public VehiculoModel editarVehiculo(int idEditar, VehiculoModel vehiculoEditar) {
-
-        VehiculoModel vehiculoEditado = null;
-
-        if (!vehiculo.isEmpty()) {
-            for (VehiculoModel vehiculos : vehiculo) {
-                if (vehiculos.getIdVehiculo() == idEditar) {
-                    vehiculos.setPatente(vehiculoEditar.getPatente());
-                    vehiculos.setValor(vehiculoEditar.getValor());
-                    vehiculos.setAño(vehiculoEditar.getAño());
-                    vehiculos.setColor(vehiculoEditar.getColor());
-                    vehiculos.setTipoVehiculo(vehiculoEditar.getTipoVehiculo());
-                    vehiculos.setVersion(vehiculoEditar.getVersion());
-                    vehiculoEditado = vehiculos;
-                }
-            }
-        }
-        return vehiculoEditado;
-    }
-/*
-    esto es para eliminar datos en su json para el codigo dejelo asi
-    public boolean eliminar"nombredelatablaenlaimagen"(int idEliminar)
-    */
-    public boolean eliminarVehiculo(int idEliminar) {
-
-        VehiculoModel vehiculoEliminar = null;
-
-        if (!vehiculo.isEmpty()) {
-            for (VehiculoModel vehiculos : vehiculo) {
-                if (vehiculos.getIdVehiculo()== idEliminar) {
-                    vehiculoEliminar = vehiculos;
-                }
-            }
-        }
-
-        vehiculo.remove(vehiculoEliminar);
-        return true;
-    }
-    
-
+        
+        
 }
