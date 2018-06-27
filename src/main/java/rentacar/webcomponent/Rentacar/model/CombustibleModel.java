@@ -7,20 +7,26 @@ package rentacar.webcomponent.Rentacar.model;
 
 
 import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sony
  */
+@Entity
+@Table(name="combustible")
 public class CombustibleModel {
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCombustible;
     private String tipoCombustible;
     private String detalle;
-    
-    
-    public static ArrayList<CombustibleModel> parafina = new ArrayList<>();
-    
 
     public int getIdCombustible() {
         return idCombustible;
@@ -60,91 +66,17 @@ public class CombustibleModel {
         this.detalle = detalle;
     }
     
-    
-    
-    public boolean nuevoCombustible(CombustibleModel nuevoCombustible){
-        
-        int id = 0;
-        
-        if (!parafina.isEmpty()) {
-            
-            for (CombustibleModel comb : parafina) {
-                if (comb.getIdCombustible()> id ) {
-                  id = comb.getIdCombustible();
-                  
-                    
-                }
-                
-                
-            }
-        }
-        id = id + 1;
-        
-        parafina.add(new CombustibleModel(id ,nuevoCombustible.getTipoCombustible(),nuevoCombustible.getDetalle()));
-        
-        return true;
-    }
-    
-    
-    
-    public CombustibleModel buscarCombustible(int idComb){
-        
-        CombustibleModel Encontrado =  null;
-        
-        if (!parafina.isEmpty()) {
-            for (CombustibleModel comb : parafina) {
-                if (comb.getIdCombustible() == idComb) {
-              Encontrado = comb;
-                    
-                }
-                
-            }
-            
-            
-        }
-        return Encontrado;
-    }
-    
-    
-    public CombustibleModel editarCombustible(int idCombustible,CombustibleModel combustibleEditar ){
-        
-          CombustibleModel Editado =  null;
-        
-        if (!parafina.isEmpty()) {
-            for (CombustibleModel comb : parafina) {
-                if(comb.getIdCombustible() == idCombustible){
-              
-                    comb.setTipoCombustible(combustibleEditar.getTipoCombustible());
-                     comb.setDetalle(combustibleEditar.getDetalle());
-                     
-                     Editado= comb;
-                }
-                
-            }
-            
-            
-        }
-        return Editado;
-    }
-    
-     public boolean aliminarCombustible(int idEliminar){
+   
        
-         CombustibleModel CombustibleEliminado = null;
-         
-         if(!parafina.isEmpty()){
-             for (CombustibleModel comb : parafina) {
-                 if (comb.getIdCombustible() == idEliminar ) {
-                     CombustibleEliminado = comb; 
-                     
-                 }
-  
-                 
-             }
-         }
-        
-    parafina.remove(CombustibleEliminado);
-            return true;
-     }
+
+   
+    
+   
+    
+
+    
+    
+    
     
     
 }

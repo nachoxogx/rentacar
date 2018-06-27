@@ -8,6 +8,9 @@ package rentacar.webcomponent.Rentacar.contoller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.Repository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import rentacar.webcomponent.Rentacar.model.CarroceriaModel;
 import org.springframework.http.HttpStatus;
+import rentacar.webcomponent.Rentacar.Repository.CarroceriaRepository;
 
 /**
  *
@@ -26,45 +30,77 @@ import org.springframework.http.HttpStatus;
 @RequestMapping("/carroceria")
 public class CarroceriaController {
     
+    
+      
+    @Autowired
+    private CarroceriaRepository carroceriaRepository;
+    
     @GetMapping()
-    public List<CarroceriaModel> list() {
-        return CarroceriaModel.carro;
+    public Iterable<CarroceriaModel> list() {
+        return carroceriaRepository.findAll();
     }
     
     @GetMapping("/{id}")
-    public CarroceriaModel get(@PathVariable String id) {
+    public ResponseEntity<CarroceriaModel> Muestra(@PathVariable String id) {
         
-        CarroceriaModel carros = new CarroceriaModel();
+         
+        Optional<CarroceriaModel> aOptional = carroceriaRepository.findById(Integer.parseInt(id));
         
+        if (aOptional.isPresent()) {
+            CarroceriaModel CombEncont = aOptional.get();
+            return new ResponseEntity<>(CombEncont,HttpStatus.FOUND);
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         
+    }
         
-        
-        
-        return carros.buscarCarroceria(Integer.parseInt(id));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable String id, @RequestBody CarroceriaModel carroceriaEditar) {
+    public ResponseEntity<CarroceriaModel> editar(@PathVariable String id, @RequestBody CarroceriaModel carroceriaEditar) {
         
-        CarroceriaModel carros = new CarroceriaModel();
+          
+        Optional<CarroceriaModel> aOptional = carroceriaRepository.findById(Integer.parseInt(id));
+        
+        if (aOptional.isPresent()) {
+            CarroceriaModel CombEncont = aOptional.get();
+           
+            
+           carroceriaEditar.setIdCarroceria(CombEncont.getIdCarroceria());
+           
+           carroceriaRepository.save(carroceriaEditar);
+           
+            return new ResponseEntity<>(carroceriaEditar,HttpStatus.OK);
+           
+           
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        
+    }
         
         
-        
-        
-        return new ResponseEntity<>(carros.editarCarroceria(Integer.parseInt(id),carroceriaEditar),HttpStatus.OK);
+       
     }
     
     @PostMapping
     public ResponseEntity<?> post(@RequestBody CarroceriaModel nuevoCarroceria) {
         
+       nuevoCarroceria =carroceriaRepository.save(nuevoCarroceria);
         
-         CarroceriaModel carros = new CarroceriaModel();
-      
-      if(carros.nuevoCarroceria(nuevoCarroceria)){
-          return new ResponseEntity<>(HttpStatus.CREATED);
-      }else{
-          return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-      }
+        
+        
+       Optional<CarroceriaModel> aOptional = carroceriaRepository.findById(nuevoCarroceria.getIdCarroceria());
+        
+        if (aOptional.isPresent()) {
+            CarroceriaModel CombEncont = aOptional.get();
+            return new ResponseEntity<>(CombEncont,HttpStatus.CREATED);
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        
+    }
         
     
     }
@@ -72,17 +108,23 @@ public class CarroceriaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
         
+          Optional<CarroceriaModel> aOptional = carroceriaRepository.findById(Integer.parseInt(id));
         
-        
-        
-        
-          CarroceriaModel carros = new CarroceriaModel();
-  
-        if (   carros.aliminarCarroceria(Integer.parseInt(id))) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        if (aOptional.isPresent()) {
+            CarroceriaModel CombEncont = aOptional.get();
+            
+            carroceriaRepository.deleteById(CombEncont.getIdCarroceria());
+            return new ResponseEntity<>(CombEncont,HttpStatus.OK);
+            
         }else{
-         return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-    }
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        
     }
     
+        
+        
+        
+      
+    
+}
 }

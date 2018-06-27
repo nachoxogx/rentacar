@@ -6,12 +6,12 @@
 package rentacar.webcomponent.Rentacar.Repository;
 
 import org.springframework.data.repository.CrudRepository;
-import rentacar.webcomponent.Rentacar.model.CombustibleModel;
+import rentacar.webcomponent.Rentacar.model.TraccionModel;
 
 /**
  *
  * @author Sony
  */
-public interface CombustibleRepository extends CrudRepository<CombustibleModel, Integer> {
+public interface TraccionRepository extends CrudRepository<TraccionModel, Integer> {
     
 }

@@ -6,18 +6,25 @@
 package rentacar.webcomponent.Rentacar.model;
 
 import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sony
  */
+@Entity
+@Table(name="carroceria")
 public class CarroceriaModel {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCarroceria;
     private String nombreCarroceria;
     private String detalle;
-    
-    public static ArrayList<CarroceriaModel> carro = new ArrayList<>();
 
     public int getIdCarroceria() {
         return idCarroceria;
@@ -43,14 +50,6 @@ public class CarroceriaModel {
         this.detalle = detalle;
     }
 
-    public static ArrayList<CarroceriaModel> getCarro() {
-        return carro;
-    }
-
-    public static void setCarro(ArrayList<CarroceriaModel> carro) {
-        CarroceriaModel.carro = carro;
-    }
-
     public CarroceriaModel() {
     }
 
@@ -65,90 +64,8 @@ public class CarroceriaModel {
         this.detalle = detalle;
     }
     
-    
-     public boolean nuevoCarroceria(CarroceriaModel nuevaCarroceria){
-        
-        int id = 0;
-        
-        if (!carro.isEmpty()) {
-            
-            for (CarroceriaModel car : carro) {
-                if (car.getIdCarroceria()> id ) {
-                  id = car.getIdCarroceria();
-                  
-                    
-                }
-                
-                
-            }
-        }
-        id = id + 1;
-        
-        carro.add(new CarroceriaModel(id ,nuevaCarroceria.getNombreCarroceria(),nuevaCarroceria.getDetalle()));
-        
-        return true;
-    }
-    
-    
-    
-    public CarroceriaModel buscarCarroceria(int idCarro){
-        
-        CarroceriaModel Encontrado =  null;
-        
-        if (!carro.isEmpty()) {
-            for (CarroceriaModel car : carro) {
-                if (car.getIdCarroceria()== idCarro) {
-              Encontrado = car;
-                    
-                }
-                
-            }
-            
-            
-        }
-        return Encontrado;
-    }
-    
-    
-    public CarroceriaModel editarCarroceria(int idCarroceria,CarroceriaModel carroceriaEditar ){
-        
-         CarroceriaModel Editado =  null;
-        
-        if (!carro.isEmpty()) {
-            for (CarroceriaModel car : carro) {
-                if(car.getIdCarroceria()== idCarroceria){
-              
-                    car.setNombreCarroceria(carroceriaEditar.getNombreCarroceria());
-                     car.setDetalle(carroceriaEditar.getDetalle());
-                     
-                     Editado= car;
-                }
-                
-            }
-            
-            
-        }
-        return Editado;
-    }
-    
-     public boolean aliminarCarroceria(int idEliminar){
-       
-         CarroceriaModel CarroceriaEliminado = null;
-         
-         if(!carro.isEmpty()){
-             for (CarroceriaModel car : carro) {
-                 if (car.getIdCarroceria()== idEliminar ) {
-                     CarroceriaEliminado = car; 
-                     
-                 }
-  
-                 
-             }
-         }
-        
-    carro.remove(CarroceriaEliminado);
-            return true;
-     }
+ 
+
     
     
     

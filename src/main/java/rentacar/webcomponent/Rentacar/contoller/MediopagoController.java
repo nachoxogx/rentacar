@@ -8,6 +8,8 @@ package rentacar.webcomponent.Rentacar.contoller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import rentacar.webcomponent.Rentacar.model.MediopagoModel;
 import org.springframework.http.HttpStatus;
+import rentacar.webcomponent.Rentacar.Repository.MedioPagoRepository;
 
 /**
  *
@@ -26,50 +29,99 @@ import org.springframework.http.HttpStatus;
 @RequestMapping("/mediopago")
 public class MediopagoController {
     
-    
+     @Autowired
+    private MedioPagoRepository mediopagoRepository;
     
     @GetMapping()
-    public List<MediopagoModel> list() {
-        return MediopagoModel.medio;
+    public Iterable<MediopagoModel> list() {
+        return mediopagoRepository.findAll();
     }
     
     @GetMapping("/{id}")
-    public MediopagoModel get(@PathVariable String id) {
+    public ResponseEntity<MediopagoModel> muestra(@PathVariable String id) {
         
-        MediopagoModel made = new MediopagoModel();
-        return made.buscarMediopago(Integer.parseInt(id));
+       
+        
+        
+        
+        Optional<MediopagoModel> aOptional = mediopagoRepository.findById(Integer.parseInt(id));
+        
+        if (aOptional.isPresent()) {
+            MediopagoModel CombEncont = aOptional.get();
+            return new ResponseEntity<>(CombEncont,HttpStatus.FOUND);
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        
+    }
+        
+        
+        
+        
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable String id, @RequestBody MediopagoModel mediopagoEditar) {
+    public ResponseEntity<MediopagoModel> Editar(@PathVariable String id, @RequestBody MediopagoModel mediopagoEditar) {
         
-        MediopagoModel made = new MediopagoModel();
+          
+        Optional<MediopagoModel> aOptional = mediopagoRepository.findById(Integer.parseInt(id));
         
+        if (aOptional.isPresent()) {
+             MediopagoModel CombEncont = aOptional.get();
+           
+            
+           mediopagoEditar.setIdMediopago(CombEncont.getIdMediopago());
+           
+           mediopagoRepository.save(mediopagoEditar);
+           
+            return new ResponseEntity<>(mediopagoEditar,HttpStatus.OK);
+           
+           
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         
-         return new ResponseEntity<>( made.editarMediopago(Integer.parseInt(id),mediopagoEditar),HttpStatus.OK);
+    }
+        
     }
     
     @PostMapping
     public ResponseEntity<?> post(@RequestBody MediopagoModel nuevoMediopago) {
-        MediopagoModel made = new MediopagoModel();
-      
-      if(made.nuevoMediopago(nuevoMediopago)){
-          return new ResponseEntity<>(HttpStatus.CREATED);
-      }else{
-          return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-      }
+        
+        
+         nuevoMediopago =mediopagoRepository.save(nuevoMediopago);
+        
+        
+        
+       Optional<MediopagoModel> aOptional =  mediopagoRepository.findById(nuevoMediopago.getIdMediopago());
+        
+        if (aOptional.isPresent()) {
+            MediopagoModel CombEncont = aOptional.get();
+            return new ResponseEntity<>(CombEncont,HttpStatus.CREATED);
+            
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        
+    }
+        
+        
     }
     
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
         
         
-        MediopagoModel combustible = new MediopagoModel();
-  
-        if (   combustible.aliminarMediopago(Integer.parseInt(id))) {
-            return new ResponseEntity<>(HttpStatus.OK);
+      Optional<MediopagoModel> aOptional = mediopagoRepository.findById(Integer.parseInt(id));
+        
+        if (aOptional.isPresent()) {
+            MediopagoModel CombEncont = aOptional.get();
+            
+          mediopagoRepository.deleteById(CombEncont.getIdMediopago());
+            return new ResponseEntity<>(CombEncont,HttpStatus.OK);
+            
         }else{
-         return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        
     }
        
     }

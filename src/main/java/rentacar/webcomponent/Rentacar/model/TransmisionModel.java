@@ -6,20 +6,29 @@
 package rentacar.webcomponent.Rentacar.model;
 
 import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Sony
  */
+@Entity
+@Table(name="transmision")
+
 public class TransmisionModel {
     
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTransmision;
     
     private String nombreTransmision;
     
     private String detalle;
-    
-    public static ArrayList<TransmisionModel> transmition = new ArrayList<>();
 
     public int getIdTransmision() {
         return idTransmision;
@@ -37,11 +46,11 @@ public class TransmisionModel {
         this.nombreTransmision = nombreTransmision;
     }
 
-    public String getdetalle() {
+    public String getDetalle() {
         return detalle;
     }
 
-    public void setdetalle(String detalle) {
+    public void setDetalle(String detalle) {
         this.detalle = detalle;
     }
 
@@ -59,95 +68,6 @@ public class TransmisionModel {
         this.detalle = detalle;
     }
     
-    public boolean nuevoTrans(TransmisionModel nuevaTransmision){
-            
-           int id = 0;
-           
-           if (!transmition.isEmpty()) {
-               
-               for (TransmisionModel trans : transmition) {
-                   if (trans.getIdTransmision()> id) {
-                      id = trans.getIdTransmision();
-                       
-                   }
-                   
-               }
-            
-        }
-            
-          id++;  
-            
-        transmition.add(new TransmisionModel(id, nuevaTransmision.getNombreTransmision(),nuevaTransmision.getdetalle() ));
-        return true;
-    }
-    
-    public TransmisionModel buscatrans(int idtransBuscado){
-        
-        TransmisionModel transEncontrado = null;
-        
-        if (!transmition.isEmpty()) {
-            for (TransmisionModel trans : transmition) {
-                if(trans.getIdTransmision()== idtransBuscado){
-                    
-                   transEncontrado = trans;
-                    
-                    
-                    
-                    
-                }
-                
-            }
-            
-        }
-        
-        return transEncontrado;
-    }
-    
-    
-    public TransmisionModel editartrans(int idTransmision, TransmisionModel transEditar){
-        
-        TransmisionModel transEditado = null;
-        
-          
-        if (!transmition.isEmpty()) {
-            for (TransmisionModel trans : transmition) {
-                if (trans.getIdTransmision()== idTransmision) {
-                    
-                    trans.setNombreTransmision(transEditar.getNombreTransmision());
-                        trans.setdetalle(transEditar.getdetalle());
-                         transEditado = trans;
-                    
-                    
-                    
-                    
-                }
-                
-            }
-            
-        }
-        return transEditado;
-        
-    }
-    
-    public boolean eliminarTrans(int idEliminar ){
-        
-        TransmisionModel transEliminado = null;
-        
-        if (!transmition.isEmpty()) {
-            for (TransmisionModel trans : transmition) {
-                if (trans.getIdTransmision()== idEliminar) {
-                 
-                    transEliminado = trans;
-                    
-                    
-                }
-                
-            }
-            
-        }
-        
-        transmition.remove(transEliminado);
-        return true;
-    }
+   
     
 }
