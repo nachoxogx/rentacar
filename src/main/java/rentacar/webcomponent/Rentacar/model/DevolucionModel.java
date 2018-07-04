@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rentacar.webcomponent.rentacar.model;
+package rentacar.webcomponent.Rentacar.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -30,7 +32,17 @@ public class DevolucionModel {
     private String detalle;
     private String fechaDevolucion;
     private String horaDevolucion;
+        @ManyToOne
+    @JoinColumn(name = "id_arriendo")
     private ArriendoModel arriendo;
+
+    public static List<DevolucionModel> getDevolucion() {
+        return devolucion;
+    }
+
+    public static void setDevolucion(List<DevolucionModel> devolucion) {
+        DevolucionModel.devolucion = devolucion;
+    }
 
     public int getIdDevolucion() {
         return idDevolucion;
@@ -91,7 +103,7 @@ public class DevolucionModel {
         this.arriendo = arriendo;
     }
 
-    private DevolucionModel(int idDevolucion, String nombreDevolucion, String detalle, String fechaDevolucion, String horaDevolucion, ArriendoModel arriendo) {
+    public DevolucionModel(int idDevolucion, String nombreDevolucion, String detalle, String fechaDevolucion, String horaDevolucion, ArriendoModel arriendo) {
         this.idDevolucion = idDevolucion;
         this.nombreDevolucion = nombreDevolucion;
         this.detalle = detalle;
@@ -99,14 +111,6 @@ public class DevolucionModel {
         this.horaDevolucion = horaDevolucion;
         this.arriendo = arriendo;
     }
-
-  
-    
-
-   
-    
-
-
-    
+        
 }
 
