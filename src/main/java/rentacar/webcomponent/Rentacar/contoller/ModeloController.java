@@ -62,7 +62,7 @@ public class ModeloController {
         if(aOptional.isPresent()){
             ModeloModel aEncontrado = aOptional.get();
             
-            modeloEditar.setIdModelo(aEncontrado.getModeloModel());
+            modeloEditar.setIdModelo(aEncontrado.getIdModelo());
             
             modeloRespository.save(modeloEditar);
             
