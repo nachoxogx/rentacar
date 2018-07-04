@@ -26,7 +26,7 @@ import rentacar.webcomponent.Rentacar.Repository.DevolucionRepository;
  * @author Jose
  */
 @RestController
-@RequestMapping("/Devolucion")
+@RequestMapping("/devolucion")
 public class DevolucionController {
     
     @Autowired

@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author Jose
  */
 @Entity
-@Table(name="Region")
+@Table(name="region")
 public class RegionModel {
     
     @Id
@@ -61,7 +61,7 @@ public class RegionModel {
         this.detalle = detalle;
     }
 
-    public RegionModel(int idRegion, String nombreRegion, String detalle) {
+    private RegionModel(int idRegion, String nombreRegion, String detalle) {
         this.idRegion = idRegion;
         this.nombreRegion = nombreRegion;
         this.detalle = detalle;

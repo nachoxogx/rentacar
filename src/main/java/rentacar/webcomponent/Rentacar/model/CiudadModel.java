@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author Jose
  */
 @Entity
-@Table(name="Ciudad")
+@Table(name="ciudad")
 public class CiudadModel {
     
     @Id

@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -16,8 +18,8 @@ import javax.persistence.Table;
  * @author Jose
  */
 @Entity
-@Table(name="Modelo")
-public class    ModeloModel {
+@Table(name="modelo")
+public class ModeloModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +27,9 @@ public class    ModeloModel {
     
     private String nombreModelo;
     private String detalle;
-    private ModeloModel marca;
+        @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private MarcaModel marca;
 
     public int getIdModelo() {
         return idModelo;
@@ -51,26 +55,29 @@ public class    ModeloModel {
         this.detalle = detalle;
     }
 
-    public ModeloModel getModelo() {
+    public MarcaModel getMarca() {
         return marca;
     }
 
-    public void setMarca(ModeloModel modelo) {
+    public void setMarca(MarcaModel marca) {
         this.marca = marca;
     }
 
-    public ModeloModel(int idModelo) {
-        this.idModelo = idModelo;
+    public ModeloModel() {
     }
 
-    public ModeloModel(int idModelo, String nombreModelo, String detalle, ModeloModel marca) {
+    public ModeloModel(String nombreModelo, String detalle, MarcaModel marca) {
+        this.nombreModelo = nombreModelo;
+        this.detalle = detalle;
+        this.marca = marca;
+    }
+
+    private ModeloModel(int idModelo, String nombreModelo, String detalle, MarcaModel marca) {
         this.idModelo = idModelo;
         this.nombreModelo = nombreModelo;
         this.detalle = detalle;
         this.marca = marca;
     }
     
-
-
-  
+    
 }

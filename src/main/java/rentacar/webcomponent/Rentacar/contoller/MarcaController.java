@@ -26,7 +26,7 @@ import rentacar.webcomponent.Rentacar.Repository.MarcaRepository;
  * @author Jose
  */
 @RestController
-@RequestMapping("/marcas")
+@RequestMapping("/marca")
 public class MarcaController {
     
     @Autowired

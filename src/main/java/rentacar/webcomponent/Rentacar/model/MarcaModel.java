@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @author Jose
  */
 @Entity
-@Table(name="Marca")
+@Table(name="marca")
 public class MarcaModel {
     
     @Id
@@ -61,7 +61,7 @@ public class MarcaModel {
         this.detalle = detalle;
     }
 
-    public MarcaModel(int idMarca, String nombreMarca, String detalle) {
+    private MarcaModel(int idMarca, String nombreMarca, String detalle) {
         this.idMarca = idMarca;
         this.nombreMarca = nombreMarca;
         this.detalle = detalle;

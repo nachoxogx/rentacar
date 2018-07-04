@@ -27,7 +27,7 @@ import rentacar.webcomponent.Rentacar.Repository.CiudadRepository;
  * @author Jose
  */
 @RestController
-@RequestMapping("/Ciudades")
+@RequestMapping("/ciudad")
 public class CiudadController {
     
     @Autowired

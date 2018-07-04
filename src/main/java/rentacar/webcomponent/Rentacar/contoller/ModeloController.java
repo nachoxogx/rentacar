@@ -26,7 +26,7 @@ import rentacar.webcomponent.Rentacar.Repository.ModeloRepository;
  * @author Jose
  */
 @RestController
-@RequestMapping("/Modelo")
+@RequestMapping("/modelo")
 public class ModeloController {
     
     @Autowired

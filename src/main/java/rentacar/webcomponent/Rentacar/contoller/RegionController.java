@@ -26,7 +26,7 @@ import rentacar.webcomponent.Rentacar.Repository.RegionRepository;
  * @author Jose
  */
 @RestController
-@RequestMapping("/Region")
+@RequestMapping("/region")
 public class RegionController {
     
     @Autowired

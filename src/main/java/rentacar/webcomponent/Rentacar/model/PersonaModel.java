@@ -38,7 +38,7 @@ public class PersonaModel {
     @JoinColumn(name = "id_ciudad")
     private CiudadModel ciudad;
     @ManyToOne
-    @JoinColumn(name = "id_persona")
+    @JoinColumn(name = "id_tipo_persona")
     private TipoPersonaModel tipoPersona;
     /*se crea un arraylist de la siguiente forma
     public static ArrayList<nombredelaclasemodelo> nombredelatablaenlaimagen = new ArrayList<>();

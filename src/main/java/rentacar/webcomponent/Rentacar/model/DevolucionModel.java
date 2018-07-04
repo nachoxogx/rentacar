@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author Jose
  */
 @Entity
-@Table(name="Devolucion")
+@Table(name="devolucion")
 public class DevolucionModel {
 
     public static List<DevolucionModel> devolucion;
@@ -103,7 +103,7 @@ public class DevolucionModel {
         this.arriendo = arriendo;
     }
 
-    public DevolucionModel(int idDevolucion, String nombreDevolucion, String detalle, String fechaDevolucion, String horaDevolucion, ArriendoModel arriendo) {
+    private DevolucionModel(int idDevolucion, String nombreDevolucion, String detalle, String fechaDevolucion, String horaDevolucion, ArriendoModel arriendo) {
         this.idDevolucion = idDevolucion;
         this.nombreDevolucion = nombreDevolucion;
         this.detalle = detalle;
