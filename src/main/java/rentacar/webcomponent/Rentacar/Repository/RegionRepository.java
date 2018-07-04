@@ -6,12 +6,12 @@
 package rentacar.webcomponent.Rentacar.Repository;
 
 import org.springframework.data.repository.CrudRepository;
-import rentacar.webcomponent.rentacar.model.DevolucionModel;
+import rentacar.webcomponent.Rentacar.model.RegionModel;
 
 /**
  *
- * @author jose
+ * @author Jose
  */
-public interface DevolucionRepository extends CrudRepository<DevolucionModel , Integer> {
+public interface RegionRepository extends CrudRepository<RegionModel, Integer> {
     
 }

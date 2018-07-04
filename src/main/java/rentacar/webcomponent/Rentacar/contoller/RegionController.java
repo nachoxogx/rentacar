@@ -17,34 +17,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import rentacar.webcomponent.Rentacar.model.MarcaModel;
+import rentacar.webcomponent.Rentacar.model.RegionModel;
 import org.springframework.http.HttpStatus;
-import rentacar.webcomponent.Rentacar.Repository.MarcaRepository;
+import rentacar.webcomponent.Rentacar.Repository.RegionRepository;
 
 /**
  *
  * @author Jose
  */
 @RestController
-@RequestMapping("/marcas")
-public class MarcaController {
+@RequestMapping("/Region")
+public class RegionController {
     
     @Autowired
-    private MarcaRepository  marcaRespository;
+    private RegionRepository  regionRespository;
     
     
     @GetMapping()
-    public Iterable<MarcaModel> listarTodos() {
+    public Iterable<RegionModel> listarTodos() {
         
-        return marcaRespository.findAll();
+        return regionRespository.findAll();
         
     }
 
     
     @GetMapping("/{id}")
-    public ResponseEntity<MarcaModel> muestraUnaMarca(@PathVariable String id) {
+    public ResponseEntity<RegionModel> muestraUnaRegion(@PathVariable String id) {
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(Integer.parseInt(id));
+        Optional<RegionModel> aOptional = regionRespository.findById(Integer.parseInt(id));
         
         if(aOptional.isPresent()){
             return new ResponseEntity<>(aOptional.get(), HttpStatus.FOUND);
@@ -55,18 +55,18 @@ public class MarcaController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<MarcaModel> editaMarca(@PathVariable String id, @RequestBody MarcaModel marcaEditar) {
+    public ResponseEntity<RegionModel> editaRegion(@PathVariable String id, @RequestBody RegionModel regionEditar) {
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(Integer.parseInt(id));
+        Optional<RegionModel> aOptional = regionRespository.findById(Integer.parseInt(id));
         
         if(aOptional.isPresent()){
-            MarcaModel aEncontrado = aOptional.get();
+            RegionModel aEncontrado = aOptional.get();
             
-            marcaEditar.setIdMarca(aEncontrado.getIdMarca());
+            regionEditar.setIdRegion(aEncontrado.getIdRegion());
             
-            marcaRespository.save(marcaEditar);
+            regionRespository.save(regionEditar);
             
-            return new ResponseEntity<>(marcaEditar, HttpStatus.OK);
+            return new ResponseEntity<>(regionEditar, HttpStatus.OK);
             
         }else{
         return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
@@ -75,11 +75,11 @@ public class MarcaController {
     }
     
     @PostMapping
-    public ResponseEntity<?> agregarMarca(@RequestBody MarcaModel nuevaMarca) {
+    public ResponseEntity<?> agregarRegion(@RequestBody RegionModel nuevaRegion) {
       
-        nuevaMarca = marcaRespository.save(nuevaMarca);
+        nuevaRegion = regionRespository.save(nuevaRegion);
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(nuevaMarca.getIdMarca());
+        Optional<RegionModel> aOptional = regionRespository.findById(nuevaRegion.getIdRegion());
         
         if(aOptional.isPresent()){
             return new ResponseEntity<>(aOptional.get(), HttpStatus.OK);
@@ -94,10 +94,10 @@ public class MarcaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(Integer.parseInt(id));
+        Optional<RegionModel> aOptional = regionRespository.findById(Integer.parseInt(id));
         
         if(aOptional.isPresent()){
-            marcaRespository.deleteById(Integer.parseInt(id));
+            regionRespository.deleteById(Integer.parseInt(id));
             return new ResponseEntity<>(aOptional.get(), HttpStatus.OK);
         }else{
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

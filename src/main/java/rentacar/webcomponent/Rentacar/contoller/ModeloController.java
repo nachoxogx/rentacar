@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 package rentacar.webcomponent.Rentacar.contoller;
-
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,15 +17,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import inacap.webcomponent.rentacar.model.ModeloModel;
+import rentacar.webcomponent.Rentacar.model.ModeloModel;
 import org.springframework.http.HttpStatus;
+import rentacar.webcomponent.Rentacar.Repository.ModeloRepository;
 
 /**
  *
  * @author Jose
  */
 @RestController
-@RequestMapping("/Modelos")
+@RequestMapping("/Modelo")
 public class ModeloController {
     
     @Autowired
@@ -60,7 +62,7 @@ public class ModeloController {
         if(aOptional.isPresent()){
             ModeloModel aEncontrado = aOptional.get();
             
-            modeloEditar.setIdModelo(aEncontrado.getIdModelo());
+            modeloEditar.setIdModelo(aEncontrado.getModeloModel());
             
             modeloRespository.save(modeloEditar);
             
@@ -105,5 +107,3 @@ public class ModeloController {
     }
 }
 
-    
-}

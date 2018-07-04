@@ -5,12 +5,12 @@
  */
 package rentacar.webcomponent.Rentacar.Repository;
 
-import inacap.webcomponent.rentacar.model.ModeloModel;
+import rentacar.webcomponent.Rentacar.model.ModeloModel;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
- * @author chechela
+ * @author jose
  */
 public interface ModeloRepository extends CrudRepository<ModeloModel, Integer> {
     

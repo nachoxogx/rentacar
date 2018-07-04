@@ -17,34 +17,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import rentacar.webcomponent.Rentacar.model.MarcaModel;
+import rentacar.webcomponent.Rentacar.model.TipoPersonaModel;
 import org.springframework.http.HttpStatus;
-import rentacar.webcomponent.Rentacar.Repository.MarcaRepository;
+import rentacar.webcomponent.Rentacar.Repository.TipoPersonaRepository;
 
 /**
  *
  * @author Jose
  */
 @RestController
-@RequestMapping("/marcas")
-public class MarcaController {
+@RequestMapping("/TipoPersona")
+public class TipoPersonaController {
     
     @Autowired
-    private MarcaRepository  marcaRespository;
+    private TipoPersonaRepository  tipopersonaRespository;
     
     
     @GetMapping()
-    public Iterable<MarcaModel> listarTodos() {
+    public Iterable<TipoPersonaModel> listarTodos() {
         
-        return marcaRespository.findAll();
+        return tipopersonaRespository.findAll();
         
     }
 
     
     @GetMapping("/{id}")
-    public ResponseEntity<MarcaModel> muestraUnaMarca(@PathVariable String id) {
+    public ResponseEntity<TipoPersonaModel> muestraUnaTipoPersona(@PathVariable String id) {
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(Integer.parseInt(id));
+        Optional<TipoPersonaModel> aOptional = tipopersonaRespository.findById(Integer.parseInt(id));
         
         if(aOptional.isPresent()){
             return new ResponseEntity<>(aOptional.get(), HttpStatus.FOUND);
@@ -55,18 +55,18 @@ public class MarcaController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<MarcaModel> editaMarca(@PathVariable String id, @RequestBody MarcaModel marcaEditar) {
+    public ResponseEntity<TipoPersonaModel> editaTipoPersona(@PathVariable String id, @RequestBody TipoPersonaModel tipopersonaEditar) {
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(Integer.parseInt(id));
+        Optional<TipoPersonaModel> aOptional = tipopersonaRespository.findById(Integer.parseInt(id));
         
         if(aOptional.isPresent()){
-            MarcaModel aEncontrado = aOptional.get();
+            TipoPersonaModel aEncontrado = aOptional.get();
             
-            marcaEditar.setIdMarca(aEncontrado.getIdMarca());
+            tipopersonaEditar.setIdTipoPersona(aEncontrado.getIdTipoPersona());
             
-            marcaRespository.save(marcaEditar);
+            tipopersonaRespository.save(tipopersonaEditar);
             
-            return new ResponseEntity<>(marcaEditar, HttpStatus.OK);
+            return new ResponseEntity<>(tipopersonaEditar, HttpStatus.OK);
             
         }else{
         return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
@@ -75,11 +75,11 @@ public class MarcaController {
     }
     
     @PostMapping
-    public ResponseEntity<?> agregarMarca(@RequestBody MarcaModel nuevaMarca) {
+    public ResponseEntity<?> agregarTipoPersona(@RequestBody TipoPersonaModel nuevaTipoPersona) {
       
-        nuevaMarca = marcaRespository.save(nuevaMarca);
+        nuevaTipoPersona= tipopersonaRespository.save(nuevaTipoPersona);
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(nuevaMarca.getIdMarca());
+        Optional<TipoPersonaModel> aOptional = tipopersonaRespository.findById(nuevaTipoPersona.getIdTipoPersona());
         
         if(aOptional.isPresent()){
             return new ResponseEntity<>(aOptional.get(), HttpStatus.OK);
@@ -94,10 +94,10 @@ public class MarcaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
         
-        Optional<MarcaModel> aOptional = marcaRespository.findById(Integer.parseInt(id));
+        Optional<TipoPersonaModel> aOptional = tipopersonaRespository.findById(Integer.parseInt(id));
         
         if(aOptional.isPresent()){
-            marcaRespository.deleteById(Integer.parseInt(id));
+            tipopersonaRespository.deleteById(Integer.parseInt(id));
             return new ResponseEntity<>(aOptional.get(), HttpStatus.OK);
         }else{
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

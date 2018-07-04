@@ -6,6 +6,7 @@
 package rentacar.webcomponent.Rentacar.Repository;
 
 import org.springframework.data.repository.CrudRepository;
+import rentacar.webcomponent.Rentacar.model.MarcaModel;
 
 /**
  *
